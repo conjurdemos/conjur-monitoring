@@ -8,10 +8,9 @@ The following exporters have been used :
 
 - NGINX exporter (https://github.com/martin-helmich/prometheus-nginxlog-exporter#credits) : 
   this exporter is used to monitor the activity of conjur NGINX service and check the request that are received. 
-  The 
 
 - JSON exporter (https://github.com/prometheus-community/json_exporter) :
-  This exporter is used to scrap the info from the /health page of conjur and /info page. From the info the global health of conjur and conjur faillover cluster can be determined. 
+  This exporter is used to scrap the info from the /health page of conjur and /info page. From /info the global health of conjur and conjur faillover cluster can be determined. 
 
 - CAdvisor (https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md) :
   This exporter is used to monitor the health of the nodes and the health of the container.
