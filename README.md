@@ -20,7 +20,7 @@ Graphana is used for creating a dashboard. Grafana will receive data from promet
 
 ## Visuals
 
-![Alt text](Visuel/dashboard.png?raw=true "Dashboard Example")
+![Alt text](Images/dashboard.png?raw=true "Dashboard Example")
 
 ## Installation
 To install this stack the following needs to be deployed :
