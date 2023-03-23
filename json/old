@@ -1,0 +1,36 @@
+---
+modules:
+  default:
+    metrics:
+      - name: conjurhealthy
+        path: "{ @ }"
+        type: object
+        help: Service status of the conjur instances
+        labels:
+          possum: '{.services.possum}'
+          ui: '{.services.ui}'
+        values:
+          status: '{.services.ok}'
+      - name: possum
+        type: object
+        help: Possum status of the conjur instances
+        path: '{.database.replication_status.pg_stat_replication[?(@.sync_state == "sync")]}'
+        valuetype: counter
+        labels:
+          environment: beta # static label
+        values:
+          active: 1      # static value
+
+      - name: ui
+        type: object
+        help: Possum status of the conjur instancesa
+        path: '{.services{*}}'
+        value:
+           ui: '{.ui}'
+        valueconverter:
+          '{.ui}': #convert value 'state' into a number
+            ok: 1
+
+    http_client_config:
+      tls_config:
+        insecure_skip_verify: true

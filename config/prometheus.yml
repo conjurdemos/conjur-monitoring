@@ -1,0 +1,54 @@
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  # external_labels:
+  #  monitor: 'codelab-monitor'
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  #- job_name: 'prometheus'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    # scrape_interval: 5s
+    #static_configs:
+    #  - targets: ['localhost:9090']
+  
+  - job_name: 'cadvisor'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    static_configs:
+      - targets: ['10.0.0.43:8080','10.0.0.37:8080','10.0.0.45:8080']
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: "([^:]+):\\d+"
+        target_label: instance
+
+  - job_name: 'nginx'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    static_configs:
+      - targets: ['10.0.0.43:4040']
+
+
+  - job_name: json_exporter
+    scrape_interval: 10s
+    scrape_timeout: 10s
+    honor_labels: true
+    metrics_path: /probe
+    static_configs:
+      - targets:
+          - https://10.0.0.43/health
+          - https://10.0.0.45/health
+          - https://10.0.0.37/health
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 10.0.0.43:7979
+  # Example job for cadvisor
+  # - job_name: 'cadvisor'
+  #   static_configs:
+  #     - targets: ['cadvisor:8080']

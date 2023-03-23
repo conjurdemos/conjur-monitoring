@@ -1,0 +1,28 @@
+---
+modules:
+  default:
+    metrics:
+      - name: conjur_health
+        type: object
+        help: Possum status of the conjur instance
+        path: '{@}'
+        labels:
+          possum: '{.services.possum}'
+          ldap_sync: '{.services.ldap-sync}'
+          ui: '{.services.ui}'
+          database: '{.database.ok}'
+          audit: '{.audit.ok}'
+          cluster: '{.cluster.ok}'
+          degraded: '{.degraded}'
+          role: '{.role}'
+          globalstatus: '{.ok}'
+        values:
+           status: 1
+           pg_current_xlog_location_bytes: '{.database.replication_status.pg_current_xlog_location_bytes}'
+           free_space_remaining: '{.database.free_space.main.kbytes}'
+
+    http_client_config:
+      tls_config:
+        insecure_skip_verify: true
+    valid_status_codes:
+            [200,502]
